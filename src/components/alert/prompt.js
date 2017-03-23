@@ -9,24 +9,12 @@ import FlatButton from 'material-ui/FlatButton';
  * You can also close this dialog by clicking outside the dialog, or with the 'Esc' key.
  */
 export default class DialogPrompt extends React.Component {
-  state = {
-    open: true,
-  };
-
-  handleOpen = () => {
-    this.setState({open: true});
-  };
-
-  handleClose = () => {
-    this.setState({open: false});
-  };
-
   render() {
     const actions = [
       <FlatButton
         label="Cancel"
         primary={true}
-        onTouchTap={this.handleClose}
+        onTouchTap={this.props.close}
       />
     ];
 
@@ -36,8 +24,8 @@ export default class DialogPrompt extends React.Component {
           title={this.props.title}
           actions={actions}
           modal={false}
-          open={this.state.open}
-          onRequestClose={this.handleClose}
+          open={this.props.open}
+          onRequestClose={this.props.close}
         >
           { this.props.children }
         </Dialog>

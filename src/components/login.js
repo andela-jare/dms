@@ -18,7 +18,8 @@ class Login extends Component {
         username: '',
         password: ''
       },
-      validationError: false
+      validationError: false,
+      open: false
     };
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -32,12 +33,22 @@ class Login extends Component {
     this.props.userActions.login(this.state.fields);
   }
 
+  componentWillReceiveProps() {
+    this.setState({ open: true });
+  }
+
   handleChange = (event) => {
     const name = event.target.name;
     const fields = this.state.fields;
     fields[name] = event.target.value;
     this.setState({
       fields
+    });
+  };
+
+  handleClose = (event) => {
+    this.setState({
+      open: false
     });
   };
 
@@ -54,7 +65,7 @@ class Login extends Component {
     }
     if (error.status) {
       display = (
-        <DialogPrompt title='Login Error'>
+        <DialogPrompt title='Login Error' open={this.state.open} close={this.handleClose}>
           { error.message }
         </DialogPrompt>
       );
