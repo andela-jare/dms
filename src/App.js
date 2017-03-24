@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Nav from './components/header/nav';
-import Login from './components/login';
 import './App.css';
 
 class App extends Component {
@@ -9,7 +8,7 @@ class App extends Component {
       <div>
         <Nav />
         <br/>
-        <Login />
+        {this.props.children}
       </div>
     );
   }

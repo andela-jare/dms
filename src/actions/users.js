@@ -18,6 +18,18 @@ export function userLogout() {
   };
 }
 
+export function userSignUp() {
+  return {
+    type: 'USER_SIGNUP_SUCCESS'
+  };
+}
+
+export function userSignUpError(message) {
+  return {
+    type: 'USER_SIGNUP_ERROR', message
+  };
+}
+
 export function login(credential) {
   return function(dispatch) {
     return request.post('http://localhost:3000/login')
@@ -43,6 +55,20 @@ export function logout() {
         }
         localStorage.removeItem('token');
         dispatch(userLogout());
+      });
+  }
+}
+
+export function signUp(credential) {
+  return function(dispatch) {
+    return request.post('http://localhost:3000/users')
+      .send(credential)
+      .end((err, res) => {
+        if (err) {
+          return dispatch(userSignUpError(res.body.message));
+        }
+        localStorage.setItem('token', res.body.token);
+        dispatch(userSignUp());
       });
   }
 }

@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Link } from 'react-router';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
@@ -15,7 +16,10 @@ class Login extends Component {
 
   render() {
     return (
-      <FlatButton {...this.props} label="Login" />
+      <div>
+        <Link to='/login'><FlatButton {...this.props} label="Login" /></Link>
+        <Link to='/signup'><FlatButton {...this.props} label="Sign Up" /></Link>
+      </div>
     );
   }
 }
@@ -73,8 +77,12 @@ class AppBarComposition extends Component {
 }
 
 const mapStateToProps = (state) => {
+  let login = state.login;
+  if (localStorage.token) {
+    login = true;
+  }
   return {
-    login: state.login
+    login
   };
 };
 

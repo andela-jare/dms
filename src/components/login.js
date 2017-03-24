@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { browserHistory } from 'react-router';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextFieldControlled from './textField';
 import * as userActions from '../actions/users';
@@ -25,15 +26,19 @@ class Login extends Component {
   }
   handleSubmit(event) {
     event.preventDefault();
-    const fields = this.state.fields;
-    if (fields.username <= 0 || fields.password <= 0) {
-      this.setState({ validationError: true });
-      return false;
-    }
     this.props.userActions.login(this.state.fields);
   }
 
-  componentWillReceiveProps() {
+  componentWillMount() {
+    if (localStorage.token) {
+      browserHistory.push('/');
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.state.login) {
+      browserHistory.push('/');
+    }
     this.setState({ open: true });
   }
 
@@ -52,25 +57,33 @@ class Login extends Component {
     });
   };
 
-  setValidateToFalse() {
-    this.setState({ validationError: false });
-  }
-
   render() {
     const { error } = this.props.state;
     let display = '';
-    let loginButton = <RaisedButton type='submit' label="Login" onClick={this.handleSubmit} style={style} />
+    let loginButton = (
+      <RaisedButton
+        type='submit'
+        label="Login"
+        onClick={this.handleSubmit}
+        style={style} />
+    );
+
     if (!this.state.fields.username || !this.state.fields.password) {
-      loginButton = <RaisedButton type='submit' label="Login" onClick={this.handleSubmit} style={style} disabled/>
+      loginButton = (<RaisedButton
+        type='submit'
+        label="Login"
+        onClick={this.handleSubmit}
+        style={style} disabled/>);
     }
     if (error.status) {
       display = (
-        <DialogPrompt title='Login Error' open={this.state.open} close={this.handleClose}>
+        <DialogPrompt title='Login Error'
+          open={this.state.open}
+          close={this.handleClose}>
           { error.message }
         </DialogPrompt>
       );
     }
-
     return (
       <div className="row center-xs">
       {display}

@@ -6,6 +6,8 @@ export function login(state = false, action) {
       return false;
     case 'USER_LOGOUT_SUCCESS':
       return false;
+    case 'USER_SIGNUP_SUCCESS':
+      return true;
     default:
       return state;
   }
@@ -17,6 +19,12 @@ export function error(state = {}, action) {
       return {
         status: true,
         type: 'USER_LOGIN_ERROR',
+        message: action.message
+      };
+    case 'USER_SIGNUP_ERROR':
+      return {
+        status: true,
+        type: 'USER_SIGNUP_ERROR',
         message: action.message
       };
     default:
