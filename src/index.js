@@ -9,11 +9,12 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { cyan500 } from 'material-ui/styles/colors';
-import Login from './components/login';
-import SignUp from './components/signUp';
+import Login from './components/auth/login';
+import SignUp from './components/auth/signUp';
 import rootReducer from './reducers';
 import App from './App';
 import Home from './components/index';
+import Dashboard from './components/dashboard';
 import './index.css';
 
 const store = createStore(rootReducer,
@@ -34,6 +35,7 @@ ReactDOM.render(
       <Router history={browserHistory}>
         <Route path="/" component={App}>
           <IndexRoute component={Home}/>
+          <Route path="/dashboard" component={Dashboard}/>
           <Route path="/login" component={Login}/>
           <Route path="/signup" component={SignUp}/>
         </Route>

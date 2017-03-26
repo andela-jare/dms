@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
@@ -26,16 +26,16 @@ class Login extends Component {
 
 const Logged = (props) => (
   <IconMenu
-    {...props}
+    iconStyle={props.iconStyle}
     iconButtonElement={
       <IconButton><MoreVertIcon /></IconButton>
     }
     targetOrigin={{horizontal: 'right', vertical: 'top'}}
     anchorOrigin={{horizontal: 'right', vertical: 'top'}}
   >
-    <MenuItem primaryText="Refresh" />
-    <MenuItem primaryText="Help" />
-    <MenuItem primaryText="Sign out" onClick={props.onClick}/>
+    <MenuItem primaryText="Refresh"/>
+    <MenuItem primaryText="Help"/>
+    <MenuItem primaryText="Sign out" onTouchTap={props.handleLogout}/>
   </IconMenu>
 );
 
@@ -60,16 +60,32 @@ class AppBarComposition extends Component {
 
   handleLogout(event) {
     event.preventDefault();
+    event.stopPropagation();
     this.props.userActions.logout();
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.login) {
+      browserHistory.push('/');
+    }
+  }
+
   render() {
+    const titleStyle = {
+      textDecoration: 'none',
+      color: 'white'
+    };
+
     return (
       <div>
         <AppBar
-          title="DMS"
+          title={<Link to="/" style={ titleStyle }>DMS</Link>}
           iconElementLeft={<IconButton><NavigationClose /></IconButton>}
-          iconElementRight={this.props.login ? <Logged onClick={this.handleLogout}/> : <Login />}
+          iconElementRight={
+            this.props.login ?
+            <Logged handleLogout={this.handleLogout}/> :
+            <Login />
+          }
         />
       </div>
     );

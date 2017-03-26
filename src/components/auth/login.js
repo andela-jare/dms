@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { browserHistory } from 'react-router';
 import RaisedButton from 'material-ui/RaisedButton';
-import TextFieldControlled from './textField';
-import * as userActions from '../actions/users';
-import DialogPrompt from './alert/prompt';
+import TextFieldControlled from '../input/textField';
+import * as userActions from '../../actions/users';
+import DialogPrompt from '../alert/prompt';
 
 const style = {
   margin: 12
@@ -31,13 +31,13 @@ class Login extends Component {
 
   componentWillMount() {
     if (localStorage.token) {
-      browserHistory.push('/');
+      browserHistory.push('/dashboard');
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.state.login) {
-      browserHistory.push('/');
+      browserHistory.push('/dashboard');
     }
     this.setState({ open: true });
   }

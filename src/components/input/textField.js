@@ -10,7 +10,7 @@ export default class TextFieldControlled extends React.Component {
           name={this.props.name}
           value={this.props.value}
           onChange={this.props.onChange}
-          hintText={this.props.hintText}
+          floatingLabelText={this.props.hintText}
           type={this.props.type}
         />
       </div>

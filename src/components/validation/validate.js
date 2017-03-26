@@ -28,6 +28,13 @@ class Validate{
     }
     return true;
   }
+
+  static notEmpty(name, value) {
+    if (value.length === 0) {
+      return `${name} is required.`;
+    }
+    return true;
+  }
 }
 
 export default Validate;

@@ -50,7 +50,6 @@ export function logout() {
       .set({ 'x-access-token': localStorage.token })
       .end((err, res) => {
         if (err) {
-          console.log(res);
           return false;
         }
         localStorage.removeItem('token');

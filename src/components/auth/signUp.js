@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { browserHistory } from 'react-router';
 import RaisedButton from 'material-ui/RaisedButton';
-import TextFieldControlled from './textField';
-import * as userActions from '../actions/users';
-import DialogPrompt from './alert/prompt';
-import Validate from './validation/validate';
+import TextFieldControlled from '../input/textField';
+import * as userActions from '../../actions/users';
+import DialogPrompt from '../alert/prompt';
+import Validate from '../validation/validate';
 
 const style = {
   margin: 12
@@ -45,13 +45,13 @@ class SignUp extends Component {
 
   componentWillMount() {
     if (localStorage.token) {
-      browserHistory.push('/');
+      browserHistory.push('/dashboard');
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.state.login) {
-      browserHistory.push('/');
+      browserHistory.push('/dashboard');
     }
     this.setState({ open: true });
   }
@@ -121,18 +121,9 @@ class SignUp extends Component {
   render() {
     const { error } = this.props.state;
     let display = '';
-    let signUpButton = <RaisedButton
-      type='submit'
-      label="Sign Up"
-      onClick={this.handleSubmit}
-      style={style} />;
-
+    let disable = false;
     if (Object.keys(this.state.validationErrors).length < 6) {
-      signUpButton = <RaisedButton
-        type='submit'
-        label="Sign Up"
-        onClick={this.handleSubmit}
-        style={style} disabled/>;
+      disable = true;
     }
 
     if (error.status) {
@@ -238,7 +229,12 @@ class SignUp extends Component {
                   </span>
                 }
                 <br/>
-              {signUpButton}
+                <RaisedButton
+                  type='submit'
+                  label="Sign Up"
+                  onClick={this.handleSubmit}
+                  style={style}
+                  disabled={disable} />
             </form>
           </div>
         </div>
